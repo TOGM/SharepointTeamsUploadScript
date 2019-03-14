@@ -1,11 +1,13 @@
 
-$clientId = "" 
-$secret = ""
-$SharepointSiteName = ""
+$clientId = "" #you set this in appregnew.aspx
+$secret = "" #you set this in appregnew.aspx
+$redirecturi = "" #you set this in appregnew.aspx
+
+$SharepointSiteName = "" 
 $domain = "contoso.sharepoint.com"
 $url = "https://$domain/sites/$SharepointSiteName"
 $identifier = "00000003-0000-0ff1-ce00-000000000000" #this is a static GUID for Sharepoint DO NOT CHANGE
-$redirecturi = "" #you set this in appregnew.aspx
+
 
 #Variables
 $FolderName = $env:COMPUTERNAME
@@ -57,7 +59,7 @@ $ContentType = "application/json;odata=verbose"
 $createfolderURL = "$url/_api/Web/Folders/add('$SharepointFolderPath')"
 Invoke-RestMethod -ContentType $ContentType -Method post -uri $createfolderURL -headers $headers
 
-#Upload Files in SharePint
+#Upload Files in SharePoint
 $UploadFiles = Get-Childitem -Path $UploadFolderPath -af
 Foreach ($file in $UploadFiles){   
     $fileUploadURL = "$url/_api/web/GetFolderByServerRelativePath(decodedurl='/sites/$SharepointSiteName/$SharepointFolderPath')/files/add(overwrite=true,url='$($file.Name)')"
