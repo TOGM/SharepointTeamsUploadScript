@@ -53,12 +53,12 @@ $headers = @{
 }
 $ContentType = "application/json;odata=verbose"
 
-#Create Folder of Computer
+#Create Folder in SharePoint
 $createfolderURL = "$url/_api/Web/Folders/add('$SharepointFolderPath')"
 Invoke-RestMethod -ContentType $ContentType -Method post -uri $createfolderURL -headers $headers
 
+#Upload Files in SharePint
 $UploadFiles = Get-Childitem -Path $UploadFolderPath -af
-
 Foreach ($file in $UploadFiles){   
     $fileUploadURL = "$url/_api/web/GetFolderByServerRelativePath(decodedurl='/sites/$SharepointSiteName/$SharepointFolderPath')/files/add(overwrite=true,url='$($file.Name)')"
     Invoke-RestMethod -ContentType $ContentType -Method post -uri $fileUploadURL -infile $file.FullName -Headers $headers
